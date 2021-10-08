@@ -4,6 +4,7 @@ import axios from "axios"
 import isEmpty from "lodash/isEmpty"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { notifyError } from '../util';
 
 /** 
  * declaration of state variables
@@ -29,29 +30,13 @@ const Registration: React.FC = () => {
         if (!isEmpty(name) && !isEmpty(email) && steps === 1) {
             setStepper(steps + 1);
         } else if((isEmpty(name) || isEmpty(email)) && steps === 1){
-                toast.error('Please fill out the form', {
-                    position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+            notifyError('Please fill out the form');
         }
 
         if (!isEmpty(password) && !isEmpty(confirmPassword) && steps === 2) {
             if(confirmPassword === password){
                 if(password.length < 6) {
-                    return   toast.error('lenght of password is too short', {
-                        position: 'top-right',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+                    return notifyError('lenght of password is too short');
                 }
                 SetLoading(true);
              
@@ -60,38 +45,14 @@ const Registration: React.FC = () => {
                     setStepper(steps + 1);
                     SetLoading(false);
                 } catch (error){
-                    toast.error(`${error}`, {
-                        position: 'top-right',
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
+                    notifyError(error as string);
                 }
             } else {
-                toast.error("Password doesn't match with confirm Password. ", {
-                    position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                notifyError("Password doesn't match with confirm Password. ");
             }
 
         }  else if((isEmpty(password) || isEmpty(confirmPassword)) && steps === 2){
-            toast.error('Please enter your password and confirm it', {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            notifyError('Please enter your password and confirm it');
         }
       
     }
@@ -102,7 +63,7 @@ const Registration: React.FC = () => {
     const handlePreviousButton = () => {
             setStepper(steps - 1);
     }
-    
+  
 
     return (
         <div

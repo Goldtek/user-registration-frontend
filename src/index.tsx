@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Register from '../src/components/screens/registration';
+import Register from './components/registration';
 import reportWebVitals from './reportWebVitals';
 
 /**
